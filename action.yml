@@ -4,6 +4,9 @@ inputs:
     description: The SQL Server version to download (if necessary) and use
   accept-eula:
     description: Confirms acceptance of the End-User Licensing Agreement
+  os-version:
+    description: Override the Ubuntu VERSION_ID to use for the Microsoft apt repo (e.g., 22.04)
+    default: ''
 runs:
   using: node20
   main: index.js
