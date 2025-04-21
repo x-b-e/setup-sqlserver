@@ -105,8 +105,14 @@ if (isMac()) {
   }
   // need to update all due to dependencies
   // run(`sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/mssql-server-${sqlserverVersion}.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"`);
+  // Update package lists
   run(`sudo apt-get update`);
-  run(`sudo apt-get install mssql-server mssql-tools`);
+  // Install missing OpenLDAP 2.5 library on newer distros
+  if (osVersion === '22.04') {
+    run(`sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libldap-2.5-2`);
+  }
+  // Install SQL Server core and tools
+  run(`sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mssql-server mssql-tools`);
   run(`sudo MSSQL_SA_PASSWORD='YourStrong!Passw0rd' MSSQL_PID=developer /opt/mssql/bin/mssql-conf -n setup accept-eula`);
 
   waitForReady();
