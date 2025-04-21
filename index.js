@@ -98,6 +98,11 @@ if (isMac()) {
   run(`wget -qO- https://packages.microsoft.com/config/ubuntu/${osVersion}/mssql-server-${sqlserverVersion}.list | sudo tee /etc/apt/sources.list.d/mssql-server-${sqlserverVersion}.list`);
   // Override "prod" repo so mssql-tools is available for this Ubuntu version
   run(`wget -qO- https://packages.microsoft.com/config/ubuntu/${osVersion}/prod.list | sudo tee /etc/apt/sources.list.d/prod.list`);
+  // If using Jammy packages on a newer distro, add Ubuntu 22.04 (jammy) main & universe for dependencies
+  if (osVersion === '22.04') {
+    run(`echo "deb http://archive.ubuntu.com/ubuntu jammy main universe" \
+      | sudo tee /etc/apt/sources.list.d/ubuntu-jammy.list`);
+  }
   // need to update all due to dependencies
   // run(`sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/mssql-server-${sqlserverVersion}.list" -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"`);
   run(`sudo apt-get update`);
