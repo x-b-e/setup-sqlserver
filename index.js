@@ -109,7 +109,8 @@ if (isMac()) {
   run(`sudo apt-get update`);
   // Install missing OpenLDAP 2.5 library on newer distros
   if (osVersion === '22.04') {
-    run(`sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libldap-2.5-2`);
+    // Install the correct OpenLDAP 2.5 library package from Jammy
+    run(`sudo DEBIAN_FRONTEND=noninteractive apt-get install -y libldap-2.5-0`);
   }
   // Install SQL Server core and tools
   run(`sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mssql-server mssql-tools`);
